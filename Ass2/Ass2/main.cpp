@@ -23,8 +23,8 @@ public:
     RationalNumber(int divident);
     RationalNumber(int divident, int divisor);
     fstream ifstream, ofstream;
-    double add(RationalNumber & b);
-    int less();
+    double add(RationalNumber &);
+    bool less(RationalNumber &);
     int mul();
     int sub();
     int div();
@@ -101,6 +101,11 @@ double RationalNumber::add(RationalNumber & b)
 //{
 //
 //};
+bool RationalNumber::less(RationalNumber &b)
+{
+    // a/b < c/d   (a * d) < (c *b)
+    return ((numerator * b.denominator) < (b.numerator * denominator));
+};
 
 
 int main(int argc, const char * argv[]) {
@@ -112,8 +117,9 @@ int main(int argc, const char * argv[]) {
     
     // insert code here...
     std::cout << "Hello, World!\n";
-    RationalNumber a(1,2);
+    RationalNumber a(1,6);
     RationalNumber b(1,3);
+    cout << a.less(b)<<endl;
     cout << a.add(b);
     
     
