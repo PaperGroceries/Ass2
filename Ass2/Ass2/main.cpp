@@ -25,9 +25,9 @@ public:
     fstream ifstream, ofstream;
     double add(RationalNumber &);
     bool less(RationalNumber &);
-    int mul();
-    int sub();
-    int div();
+    double mul(RationalNumber &);
+    double sub(RationalNumber &);
+    double div(RationalNumber &);//im a dog woof woof
     int input(fstream & ifstream);
     //thinking of overloading the functions
     //meybe no parameter ones will input the private rational number
@@ -85,22 +85,22 @@ double RationalNumber::add(RationalNumber & b)
     //i am not sure how to return it as int
     // (a * d + b * c)/(b * d)
     //a/b +c/d
-    double f_n = (numerator * b.denominator + denominator * b.numerator)/(denominator * b.denominator * 1.0);
-    return f_n;
-
+    return (numerator * b.denominator + denominator * b.numerator)/(denominator * b.denominator * 1.0);
 };
-//int RationalNumber::sub()
-//{
-//
-//};
-//int RationalNumber::mul()
-//{
-//
-//};
-//int RationalNumber::div()
-//{
-//
-//};
+double RationalNumber::sub(RationalNumber & b)
+{
+    return (numerator * b.denominator - denominator * b.numerator)/(denominator * b.denominator * 1.0);
+};
+double RationalNumber::mul(RationalNumber & b)
+{
+    //a/b * c/d  (a * c)/(b * d)
+    return (numerator * b.numerator)/(denominator * b.denominator * 1.0);
+};
+double RationalNumber::div(RationalNumber &b)
+{
+    //(a * d)/(c * b)
+    return (numerator * b.denominator)/(b.numerator * denominator * 1.0);
+};
 bool RationalNumber::less(RationalNumber &b)
 {
     // a/b < c/d   (a * d) < (c *b)
@@ -120,7 +120,8 @@ int main(int argc, const char * argv[]) {
     RationalNumber a(1,6);
     RationalNumber b(1,3);
     cout << a.less(b)<<endl;
-    cout << a.add(b);
+    cout << a.add(b)<<endl;
+    cout << a.mul(b);
     
     
     
