@@ -8,6 +8,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -15,12 +16,14 @@ class RationalNumber
 {
     int numerator;
     int denominator;
+    int r_num;
+    int r_den;
 public:
     RationalNumber();
     RationalNumber(int divident);
     RationalNumber(int divident, int divisor);
     fstream ifstream, ofstream;
-    int add();
+    double add(RationalNumber & b);
     int less();
     int mul();
     int sub();
@@ -67,14 +70,38 @@ int RationalNumber::input(fstream & ifstream)
     ifstream >> numerator ;
     ifstream.ignore();
     ifstream >> denominator;
+    ifstream.ignore();
     return 0;
 };
 int RationalNumber::output(fstream & ofstream)
 {
     ifstream.open("Rationals.txt");
-    ofstream << numerator << "/" << denominator;
+    ofstream << numerator << "/" << denominator << endl;
     return 0;
 };
+double RationalNumber::add(RationalNumber & b)
+{
+    //should it be a string?
+    //i am not sure how to return it as int
+    // (a * d + b * c)/(b * d)
+    //a/b +c/d
+    double f_n = (numerator * b.denominator + denominator * b.numerator)/(denominator * b.denominator * 1.0);
+    return f_n;
+
+};
+//int RationalNumber::sub()
+//{
+//
+//};
+//int RationalNumber::mul()
+//{
+//
+//};
+//int RationalNumber::div()
+//{
+//
+//};
+
 
 int main(int argc, const char * argv[]) {
     //decide whether you are going to have separate input and output files
@@ -85,6 +112,12 @@ int main(int argc, const char * argv[]) {
     
     // insert code here...
     std::cout << "Hello, World!\n";
+    RationalNumber a(1,2);
+    RationalNumber b(1,3);
+    cout << a.add(b);
+    
+    
+    
     return 0;
     
 }
