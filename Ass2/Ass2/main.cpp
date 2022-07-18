@@ -22,16 +22,15 @@ public:
     RationalNumber();
     RationalNumber(int divident);
     RationalNumber(int divident, int divisor);
-    fstream ifstream, ofstream;
     double add(RationalNumber &);
     bool less(RationalNumber &);
     double mul(RationalNumber &);
     double sub(RationalNumber &);
     double div(RationalNumber &);//im a dog woof woof
-    int input(fstream & ifstream);
+    int input(fstream &);
     //thinking of overloading the functions
     //meybe no parameter ones will input the private rational number
-    int output(fstream & ofstream);//file out put and screen output?
+    int output(fstream &);//file out put and screen output?
     
     //ifstream.open("Rationals.txt");
     //i think i am going to put it into functions
@@ -67,7 +66,7 @@ RationalNumber::RationalNumber(int divident, int divisor)
 int RationalNumber::input(fstream & ifstream)
 {
     ifstream.open("Rationals.txt");
-    ifstream >> numerator ;
+    ifstream >> numerator;
     ifstream.ignore();
     ifstream >> denominator;
     ifstream.ignore();
@@ -75,7 +74,7 @@ int RationalNumber::input(fstream & ifstream)
 };
 int RationalNumber::output(fstream & ofstream)
 {
-    ifstream.open("Rationals.txt");
+    ofstream.open("Rationals.txt",fstream::app);
     ofstream << numerator << "/" << denominator << endl;
     return 0;
 };
@@ -115,6 +114,8 @@ int main(int argc, const char * argv[]) {
     //think of how u plan input code to main from private or txt
     //test cases
     
+    //finish output and input with text files and test them
+    
     // insert code here...
     std::cout << "Hello, World!\n";
     RationalNumber a(1,6);
@@ -122,6 +123,9 @@ int main(int argc, const char * argv[]) {
     cout << a.less(b)<<endl;
     cout << a.add(b)<<endl;
     cout << a.mul(b);
+    fstream ifstream, ofstream;
+    a.output(ofstream);
+    b.output(ifstream);
     
     
     
