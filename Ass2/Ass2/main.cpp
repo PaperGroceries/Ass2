@@ -28,6 +28,8 @@ public:
     double sub(RationalNumber &);
     double div(RationalNumber &);//im a dog woof woof
     int input(fstream &);
+    void get();
+    void set(int new_num, int new_den);
     //thinking of overloading the functions
     //meybe no parameter ones will input the private rational number
     int output(fstream &);//file out put and screen output?
@@ -65,7 +67,6 @@ RationalNumber::RationalNumber(int divident, int divisor)
 }
 int RationalNumber::input(fstream & ifstream)
 {
-    ifstream.open("Rationals.txt");
     ifstream >> numerator;
     ifstream.ignore();
     ifstream >> denominator;
@@ -74,7 +75,6 @@ int RationalNumber::input(fstream & ifstream)
 };
 int RationalNumber::output(fstream & ofstream)
 {
-    ofstream.open("Rationals.txt",fstream::app);
     ofstream << numerator << "/" << denominator << endl;
     return 0;
 };
@@ -105,7 +105,15 @@ bool RationalNumber::less(RationalNumber &b)
     // a/b < c/d   (a * d) < (c *b)
     return ((numerator * b.denominator) < (b.numerator * denominator));
 };
-
+void RationalNumber::get()
+{
+    cout << numerator << "/" << denominator << endl;
+};
+void RationalNumber::set(int n_num,int n_den)
+{
+    numerator = n_num;
+    denominator = n_den;
+};
 
 int main(int argc, const char * argv[]) {
     //decide whether you are going to have separate input and output files
@@ -117,15 +125,39 @@ int main(int argc, const char * argv[]) {
     //finish output and input with text files and test them
     
     // insert code here...
+    bool yes = false;
+    int num;
+    int den;
     std::cout << "Hello, World!\n";
     RationalNumber a(1,6);
     RationalNumber b(1,3);
+    RationalNumber c(1,20);
     cout << a.less(b)<<endl;
     cout << a.add(b)<<endl;
-    cout << a.mul(b);
+    cout << a.mul(b)<<endl;
     fstream ifstream, ofstream;
+    ofstream.open("Rationals.txt",fstream::app);
+    ifstream.open("Rationals.txt");
     a.output(ofstream);
-    b.output(ifstream);
+    b.output(ofstream);
+    c.input(ifstream);
+    c.get();
+    do
+    {
+        cout << "Pls enter numerator";
+        cin >> num;
+        cout << "Pls enter  denominator";
+        cin >> den;
+        cout << "would you like to input another rational number? (1 yes)";
+        cin >> yes;
+        
+    }while (yes);
+    RationalNumber d(num,den);
+    d.output(ofstream);
+    
+    //does he want us to make objects from  ui
+    //nuh i think he meant this area as keayboard
+    //but if he want that we can always make cin into integers and put those integers into object as arguments
     
     
     
