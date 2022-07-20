@@ -35,6 +35,8 @@ public:
     //meybe no parameter ones will input the private rational number
     int output(fstream &);//file out put and screen output?
     void output(iostream & cout);
+    
+    bool eqv(RationalNumber &);
     //ifstream.open("Rationals.txt");
     //i think i am going to put it into functions
     
@@ -66,6 +68,7 @@ RationalNumber::RationalNumber(int divident, int divisor)
     denominator = divisor;
     if(denominator < 0)
     {
+        cout <<"the minus sign was in denomenator,we have put the minus sign into numerator"<<endl;
         denominator *= -1;
         numerator *= -1;
     }
@@ -171,6 +174,11 @@ int RationalNumber::gcd(int a, int b)
     else
        return gcd(b, a % b);
 }
+bool RationalNumber::eqv(RationalNumber & b)
+{
+    return (numerator * b.denominator) == (b.numerator * denominator);
+   // (a/b) == (c/d) means (a * d) == (c * b)
+}
 
 //void RationalNumber::output(iostream & kcout)
 //{
@@ -197,15 +205,31 @@ int main(int argc, const char * argv[]) {
     RationalNumber a(3,2);
     RationalNumber b(-1,2);
     RationalNumber c(1,2);
+    RationalNumber d(1,-2);
+    RationalNumber e(2,4);
 //    cout <<  "x is " ;
 //    a.get();
 //    cout <<  "y is " ;
 //    b.get();
+    a.add(b);
+    cout << a.get_num() << "/" << a.get_den() << " + " << b.get_num() << "/"<< b.get_den()<< " = " << a.get_rnum() <<
+            "/"<< a.get_rden()<<endl; //
+    a.sub(c);
+    cout << a.get_num() << "/" << a.get_den() << " - " << c.get_num() << "/"<< c.get_den()<< " = " << a.get_rnum() <<
+    "/"<< a.get_rden()<<endl; //
+    a.mul(c);
+    cout << a.get_num() << "/" << a.get_den() << " * " << c.get_num() << "/"<< c.get_den()<< " = " << a.get_rnum() <<
+    "/"<< a.get_rden()<<endl; //
+    a.div(c);
+    cout << a.get_num() << "/" << a.get_den() << " / " << c.get_num() << "/"<< c.get_den()<< " = "  << a.get_rnum() <<
+    "/"<< a.get_rden()<<endl; //
+    
+    
     a.get();
     cout << " < ";
     c.get();
     cout << " is ";
-    if (a.less(b))
+    if (a.less(c))
     {
         cout <<  "True" << endl;
     }
@@ -213,18 +237,47 @@ int main(int argc, const char * argv[]) {
     {
         cout << "False" << endl;
     }
-    a.add(b);
-    cout << a.get_num() << "/" << a.get_den() << " + " << b.get_num() << "/"<< b.get_den()<< " = " << a.get_rnum() <<
-            "/"<< a.get_rden()<<endl; //
-    a.mul(c);
-    cout << a.get_num() << "/" << a.get_den() << " * " << c.get_num() << "/"<< c.get_den()<< " = " << a.get_rnum() <<
-    "/"<< a.get_rden()<<endl; //
-    a.div(c);
-    cout << a.get_num() << "/" << a.get_den() << " / " << c.get_num() << "/"<< c.get_den()<< " = "  << a.get_rnum() <<
-    "/"<< a.get_rden()<<endl; //
-    a.sub(c);
-    cout << a.get_num() << "/" << a.get_den() << " - " << c.get_num() << "/"<< c.get_den()<< " = " << a.get_rnum() <<
-    "/"<< a.get_rden()<<endl; //
+    
+    c.get();
+    cout << " < ";
+    a.get();
+    cout << " is ";
+    if (c.less(a))
+    {
+        cout <<  "True" << endl;
+    }
+    else
+    {
+        cout << "False" << endl;
+    }
+    
+    a.get();
+    cout << " == ";
+    c.get();
+    cout << " is ";
+    if (a.eqv(c))
+    {
+        cout <<  "True" << endl;
+    }
+    else
+    {
+        cout << "False" << endl;
+    }
+    
+    e.get();
+    cout << " == ";
+    c.get();
+    cout << " is ";
+    if (e.eqv(c))
+    {
+        cout <<  "True" << endl;
+    }
+    else
+    {
+        cout << "False" << endl;
+    }
+    
+    
     fstream ifstream, ofstream;
     ofstream.open("Rationals.txt",fstream::app);
     ifstream.open("Rationals.txt");
