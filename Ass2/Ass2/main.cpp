@@ -16,6 +16,7 @@ class RationalNumber
 {
     int numerator;
     int denominator;
+
     int r_num;
     int r_den;
 public:
@@ -41,8 +42,13 @@ public:
     
     //write getnum
     //get denom
-    void get_num();
-    void get_den();
+    int get_num();
+    int get_den();
+    
+    int get_rnum();
+    int get_rden();
+    
+    int gcd(int a, int b);
 };
 RationalNumber::RationalNumber()
 {
@@ -88,20 +94,44 @@ double RationalNumber::add(RationalNumber & b)
     //i am not sure how to return it as int
     // (a * d + b * c)/(b * d)
     //a/b +c/d
+    int this_gcd;
+    r_num =(numerator * b.denominator + denominator * b.numerator);
+    r_den =(denominator * b.denominator);
+    this_gcd = gcd(r_num, r_den);
+    r_num /= this_gcd;
+    r_den /= this_gcd;
     return (numerator * b.denominator + denominator * b.numerator)/(denominator * b.denominator * 1.0);
 };
 double RationalNumber::sub(RationalNumber & b)
 {
+    int this_gcd;
+    r_num =(numerator * b.denominator - denominator * b.numerator);
+    r_den =(denominator * b.denominator);
+    this_gcd = gcd(r_num, r_den);
+    r_num /= this_gcd;
+    r_den /= this_gcd;
     return (numerator * b.denominator - denominator * b.numerator)/(denominator * b.denominator * 1.0);
 };
 double RationalNumber::mul(RationalNumber & b)
 {
     //a/b * c/d  (a * c)/(b * d)
+    int this_gcd;
+    r_num = numerator * b.numerator;
+    r_den = denominator * b.denominator;
+    this_gcd = gcd(r_num, r_den);
+    r_num /= this_gcd;
+    r_den /= this_gcd;
     return (numerator * b.numerator)/(denominator * b.denominator * 1.0);
 };
 double RationalNumber::div(RationalNumber &b)
 {
     //(a * d)/(c * b)
+    int this_gcd;
+    r_num = numerator * b.denominator;
+    r_den = b.numerator * denominator;
+    this_gcd = gcd(r_num, r_den);
+    r_num /= this_gcd;
+    r_den /= this_gcd;
     return (numerator * b.denominator)/(b.numerator * denominator * 1.0);
 };
 bool RationalNumber::less(RationalNumber &b)
@@ -111,21 +141,37 @@ bool RationalNumber::less(RationalNumber &b)
 };
 void RationalNumber::get()
 {
-    cout << numerator << "/" << denominator << endl;
+    cout << numerator << "/" << denominator;
 };
 void RationalNumber::set(int n_num,int n_den)
 {
     numerator = n_num;
     denominator = n_den;
 };
-void RationalNumber::get_num()
+int RationalNumber::get_num()
 {
-    cout << numerator;
+    return numerator;
 };
-void RationalNumber::get_den()
+int RationalNumber::get_den()
 {
-    cout << denominator;
+    return denominator;
 }
+int RationalNumber::get_rnum()
+{
+    return r_num;
+}
+int RationalNumber::get_rden()
+{
+    return r_den;
+}
+int RationalNumber::gcd(int a, int b)
+{
+    if (b == 0)
+       return a;
+    else
+       return gcd(b, a % b);
+}
+
 //void RationalNumber::output(iostream & kcout)
 //{
 //    kcout << numerator << "/" << denominator;
@@ -146,29 +192,39 @@ int main(int argc, const char * argv[]) {
     bool yes = false;
     int num;
     int den;
+    int x = 0;
     std::cout << "Hello, World!\n";
-    RationalNumber a(1,6);
-    RationalNumber b(1,3);
-    RationalNumber c(1,20);
-    
-    cout <<  "x is " ;
+    RationalNumber a(3,2);
+    RationalNumber b(-1,2);
+    RationalNumber c(1,2);
+//    cout <<  "x is " ;
+//    a.get();
+//    cout <<  "y is " ;
+//    b.get();
     a.get();
-    cout <<  "y is " ;
-    b.get();
-    cout << "x is less than y" << endl;
+    cout << " < ";
+    c.get();
+    cout << " is ";
     if (a.less(b))
     {
-        cout << "True" << endl;
+        cout <<  "True" << endl;
     }
     else
     {
         cout << "False" << endl;
     }
-   
-    cout << "x + y = " << a.add(b)<<endl; // 0.5
-    cout << "x * y = " << a.mul(b)<<endl; // 0.0555556
-    cout << "y / x = " << b.div(a)<<endl;//2
-    cout << "x - y = " << a.sub(b)<<endl;//-0.166667
+    a.add(b);
+    cout << a.get_num() << "/" << a.get_den() << " + " << b.get_num() << "/"<< b.get_den()<< " = " << a.get_rnum() <<
+            "/"<< a.get_rden()<<endl; //
+    a.mul(c);
+    cout << a.get_num() << "/" << a.get_den() << " * " << c.get_num() << "/"<< c.get_den()<< " = " << a.get_rnum() <<
+    "/"<< a.get_rden()<<endl; //
+    a.div(c);
+    cout << a.get_num() << "/" << a.get_den() << " / " << c.get_num() << "/"<< c.get_den()<< " = "  << a.get_rnum() <<
+    "/"<< a.get_rden()<<endl; //
+    a.sub(c);
+    cout << a.get_num() << "/" << a.get_den() << " - " << c.get_num() << "/"<< c.get_den()<< " = " << a.get_rnum() <<
+    "/"<< a.get_rden()<<endl; //
     fstream ifstream, ofstream;
     ofstream.open("Rationals.txt",fstream::app);
     ifstream.open("Rationals.txt");
@@ -176,7 +232,7 @@ int main(int argc, const char * argv[]) {
 //    b.output(ofstream);
     c.input(ifstream); // 1/6
     c.get(); // 1/6
-    cout << "was just read from Rationals.txt" << endl;
+    cout << " was just read from Rationals.txt" << endl;
     //I have get num and den, ask if i should demonstrate them
     do
     {
@@ -188,11 +244,17 @@ int main(int argc, const char * argv[]) {
         cin >> yes;
 
     }while (yes);
+    cout<< "would you like to save the rational number to Rationals.txt ? " << endl;
+    cin >> x;
+    if(x)
+    {
+        RationalNumber d(num,den);
+        d.output(ofstream);
+        cout << "the number is recorded in txt file" << endl;
+    }
+   
     
-    RationalNumber d(num,den);
-    d.output(ofstream);
     
-    cout << "the number is recorded in txt file" << endl;
     //does he want us to make objects from  ui
     //nuh i think he meant this area as keayboard
     //but if he want that we can always make cin into integers and put those integers into object as arguments
