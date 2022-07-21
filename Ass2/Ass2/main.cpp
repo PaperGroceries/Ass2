@@ -3,7 +3,7 @@
 //  Ass2
 //
 //  Created by Aim Kim on 2022-07-13.
-//
+//s
 
 #include <iostream>
 #include <fstream>
